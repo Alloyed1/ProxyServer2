@@ -1,0 +1,317 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+<!-- Preloader -->
+<div id="preloader">
+	<div class="loader"></div>
+</div>
+<link rel="stylesheet" href="~/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.css" />
+
+
+
+<!-- /Preloader -->
+<!-- Header Area Start -->
+<!-- Header Area End -->
+<!-- Welcome Area Start -->
+<div id="main">
+	<section class="welcome-area">
+
+		<!-- Welcome Pattern -->
+		<div class="welcome-pattern">
+			<img src="img/core-img/welcome-pattern.png" alt="">
+		</div>
+
+		<!-- Welcome Slide -->
+		<div class="welcome-slides owl-carousel">
+
+			<!-- Single Welcome Slide -->
+			<div class="single-welcome-slide">
+				<!-- Welcome Content -->
+				<div class="welcome-content h-100">
+					<div class="container h-100">
+						<div class="row h-100 align-items-center">
+							<!-- Welcome Text -->
+							<div class="col-12 col-md-9 col-lg-7">
+								<div class="welcome-text mb-50">
+									<h2 data-animation="fadeInLeftBig" data-delay="200ms" data-duration="1s">Лучшие<br> Прокси у нас</h2>
+									<h3 data-animation="fadeInLeftBig" data-delay="400ms" data-duration="1s">По цене <span>$7.99</span> $5/ в месяц</h3>
+									<p data-animation="fadeInLeftBig" data-delay="600ms" data-duration="1s">Мы - лучшее, что вы найдёте в интернете</p>
+									<a href="#" class="btn hami-btn btn-2" data-animation="fadeInLeftBig" data-delay="800ms" data-duration="1s">Начать сейчас!</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Welcome Thumbnail -->
+				<div class="welcome-thumbnail">
+					<img src="img/bg-img/1.png" alt="">
+				</div>
+			</div>
+
+			<!-- Single Welcome Slide -->
+			<div class="single-welcome-slide">
+				<!-- Welcome Content -->
+				<div class="welcome-content h-100">
+					<div class="container h-100">
+						<div class="row h-100 align-items-center">
+							<!-- Welcome Text -->
+							<div class="col-12 col-md-9 col-lg-7">
+								<div class="welcome-text mb-50">
+									<h2 data-animation="fadeInUpBig" data-delay="200ms" data-duration="1s">Вы получите<br> Самые свежие прокси</h2>
+									<p data-animation="fadeInUpBig" data-delay="600ms" data-duration="1s">Мы гарантируем вам качество!</p>
+									<a href="#" class="btn hami-btn btn-2" data-animation="fadeInUpBig" data-delay="800ms" data-duration="1s">Начать сейчас!</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Welcome Thumbnail -->
+				<div class="welcome-thumbnail">
+					<img src="img/bg-img/2.png" alt="">
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Clouds -->
+		<div class="clouds">
+			<img src="img/core-img/cloud-1.png" alt="" class="cloud-1">
+			<img src="img/core-img/cloud-2.png" alt="" class="cloud-2">
+			<img src="img/core-img/cloud-3.png" alt="" class="cloud-3">
+			<img src="img/core-img/cloud-4.png" alt="" class="cloud-4">
+			<img src="img/core-img/cloud-5.png" alt="" class="cloud-5">
+		</div>
+	</section>
+	<!-- Welcome Area End -->
+	<!-- Find Domain Area Start -->
+	<section class="find-domain-area section-padding-80-0">
+		<div class="container">
+			<div class="row align-items-center pb-5">
+				<h1 style="color:orange; color:#007bff" class="bounceInn hidden mx-auto"> СТАТИСТИКА ПРОКСИ ЗА ПОСЛЕДНЮЮ НЕДЕЛЮ</h1>
+				<h4 class="text-center mt-4 zoomInn hidden mx-auto"><span style="padding:2px 12px;background:#007bff;border-radius:12px!important;">{{countProxy}}</span> прокси работают прямо сейчас в <span style="padding:2px 12px;background:#007bff;border-radius:12px!important;">{{cities.length}}</span> странах мира</h4>
+				<canvas id="myChart" width="300" height="100"></canvas>
+			</div>
+		</div>
+	</section>
+	<!-- Find Domain Area End -->
+	<!-- Features Area Start -->
+	<section class="hami-features-area bg-gray section-padding-100">
+		<div class="container">
+			<div class="row">
+				<!-- Section Heading -->
+				<div class="col-12">
+					<div class="section-heading text-center">
+						<h2>Наши преимущества</h2>
+						<p>Мы предоставляем самый удобные сервис для покупки прокси</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<!-- Single Feature Area -->
+				<div class="col-12 col-sm-6 col-lg-4" v-for="(item, index) in 6">
+					<div class="single-feature-area d-flex mb-50">
+						<div class="feature-icon">
+							<i v-if="index == 0" style="font-size: 60px;" class="fa fa-clock-o icon-feature mr-3 " aria-hidden="true"></i>
+							<i v-if="index == 1" style="font-size: 60px;" class="fa fa-map-marker icon-feature  mr-3 " aria-hidden="true"></i>
+							<i v-if="index == 2" style="font-size: 60px;" class="fa fa-rocket icon-feature mr-3  " aria-hidden="true"></i>
+							<i v-if="index == 3" style="font-size: 60px;" class="fa fa-certificate icon-feature mr-3  " aria-hidden="true"></i>
+							<i v-if="index == 4" style="font-size: 60px;" class="fa fa-globe icon-feature mr-3 " aria-hidden="true"></i>
+							<i v-if="index == 5" style="font-size: 60px;" class="fa fa-signal icon-feature mr-3  " aria-hidden="true"></i>
+						</div>
+						<div class="feature-text">
+							<h5>{{preimushName[index]}}</h5>
+							<p>{{preimushBody[index]}}</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Feature Pattern -->
+		<div class="feature-pattern">
+			<img src="img/core-img/welcome-pattern.png" alt="">
+		</div>
+	</section>
+	<!-- Features Area End -->
+	<!-- Price Plan Area Start -->
+	<section class="hami-price-plan-area mt-50">
+		<div class="container">
+			<div class="row">
+				<!-- Section Heading -->
+				<div class="col-12">
+					<div class="section-heading text-center">
+						<h2>Мы предоставляем один план подписки</h2>
+						<p>Вы всегда можете его продлить.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-center">
+
+
+				<!-- Single Price Plan -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="single-price-plan active mb-100">
+						<!-- Popular Tag -->
+						<div class="popular-tag">
+							<i class="icon_star"></i> Лучший <i class="icon_star"></i>
+						</div>
+						<!-- Title -->
+						<div class="price-plan-title">
+							<h4>Стандартная подписки</h4>
+						</div>
+						<!-- Value -->
+						<div class="price-plan-value">
+							<h2><span>$</span>5.00</h2>
+							<p>/в неделю</p>
+						</div>
+						<!-- Button -->
+						<a href="#" class="btn hami-btn w-100 mb-30">Начать сейчас</a>
+						<!-- Description -->
+						<div class="price-plan-desc">
+							<p><i class="icon_check"></i> Постоянно свежие пркоси</p>
+							<p><i class="icon_check"></i> Каждый 10 минут вы получаете новые прокси</p>
+							<p><i class="icon_check"></i> Самый удобный серсис</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<section class="hami-support-area bg-gray">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="support-text">
+						<h2>Нужна помощь? Пишите на почту: </h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Support Pattern -->
+		<div class="support-pattern" style="background-image: url(img/core-img/support-pattern.png);"></div>
+	</section>
+	<!-- Support Area End -->
+	<!-- Call To Action Area Start -->
+	<section class="hami-cta-area">
+		<div class="container">
+			<div class="cta-text">
+				<h2>Мы предоставляем <span class="counter">{{countProxy}}</span> прокси в <span class="counter">79</span> странах</h2>
+			</div>
+		</div>
+	</section>
+</div>
+<script src="~/js/jquery.min.js"></script>
+<!-- Popper -->
+<script src="~/js/popper.min.js"></script>
+<!-- Bootstrap -->
+<script src="~/js/bootstrap.min.js"></script>
+<!-- All Plugins -->
+<script src="~/js/hami.bundle.js"></script>
+<!-- Active -->
+<script src="~/js/default-assets/active.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.bundle.min.js"></script>
+@section Scripts{
+
+	<script type="text/javascript">
+		var main = new Vue({
+			el: '#main',
+			data: {
+				countProxy: 0,
+				cities: [],
+				preimushName: [],
+				preimushBody: [],
+				dat: []
+			},
+			mounted() {
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetCountProxy',
+					async: true,
+					success: (res) => {
+						this.countProxy = res;
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetStatsCount',
+					success: (res) => {
+						main.dat = res;
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetPreimush',
+					async: true,
+					success: (res) => {
+						console.log(res);
+						res.forEach(function (el) {
+							main.preimushName.push(el.name);
+							main.preimushBody.push(el.body);
+						});
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetCities',
+					async: true,
+					success: (res) => {
+						this.cities = res;
+					}
+				});
+			}
+		});
+		setTimeout(function () {
+			var ctx = document.getElementById('myChart').getContext('2d');
+			console.log(main.dat);
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+					labels: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Суббота', 'Воскресенье'],
+					datasets: [{
+						label: '# of Votes',
+						data: [main.dat[0], main.dat[1], main.dat[2], main.dat[3], main.dat[4], main.dat[5], main.dat[6]],
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)',
+							'rgba(54, 162, 235, 0.2)',
+							'rgba(255, 206, 86, 0.2)',
+							'rgba(75, 192, 192, 0.2)',
+							'rgba(153, 102, 255, 0.2)',
+							'rgba(255, 159, 64, 0.2)'
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)',
+							'rgba(75, 192, 192, 1)',
+							'rgba(153, 102, 255, 1)',
+							'rgba(255, 159, 64, 1)'
+						],
+						borderWidth: 1
+					}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero: true
+							}
+						}]
+					}
+				}
+			});
+		}, 500);
+
+
+	</script>
+}
+
+

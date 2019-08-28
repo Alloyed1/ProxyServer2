@@ -1,0 +1,221 @@
+﻿
+@{
+	ViewData["Title"] = "Index";
+}
+
+<div class="container" id="main_vue">
+	<div class="addbit">
+		<h1 class="text-center">ДОБАВЛЕНИЕ БИТКОИН АДРЕСОВ ({{adminViewModel.avaibleBitcountPayment}} доступно )</h1>
+		<div class=" text-center">
+			<input v-model="inputPayment" type="text" value="" style="width: 60%" />
+			<a v-on:click.prevent="addBitcoinPayment" href="#">Добавить</a>
+		</div>
+	</div>
+	<div class="addbit mt-5">
+		<h1 class="text-center">ЦЕНА ЗА НЕДЕЛЬНУЮ ПОДПИСКУ</h1>
+		<div class=" text-center">
+			<input v-model="price" type="number" style="width: 60%" />
+			<a v-on:click.prevent="changePrice" href="#">Изменить</a>
+		</div>
+	</div>
+	<div class="addbit mt-5">
+		<h1 class="text-center">ССЫЛКА НА ПРОКСИ</h1>
+		<div class=" text-center">
+			<input v-model="proxyUrl" type="text" style="width: 60%" />
+			<a v-on:click.prevent="setProxy" href="#">Изменить</a>
+		</div>
+	</div>
+	<div class="addbit mt-5 text-center">
+		<h1 class="text-center">ПРАВИЛА</h1>
+		<div class=" text-center mt-3" v-for="(prav, index) in pravila">
+			<input v-model="pravila[index]" type="text" style="width: 60%" />
+		</div>
+		<a v-on:click.prevent="pravila.push('')" class=" btn btn-danger mt-4" href="">Добавить правило</a>
+		<a v-on:click.prevent="pravila.pop()" class=" btn btn-danger mt-4" href="">Удалить правило</a><br />
+		<a v-on:click.prevent="setPravila" class=" btn btn-success mt-4" href="">Cохранить</a>
+	</div>
+	<div class="addbit mt-5 text-center">
+		<h1 class="text-center">Политика конф.</h1>
+		<div class=" text-center mt-3" v-for="(prav, index) in politica">
+			<input v-model="politica[index]" type="text" style="width: 60%" />
+		</div>
+		<a v-on:click.prevent="politica.push('')" class=" btn btn-danger mt-4" href="">Добавить </a>
+		<a v-on:click.prevent="politica.pop()" class=" btn btn-danger mt-4" href="">Удалить</a><br />
+		<a v-on:click.prevent="setPolitica" class=" btn btn-success mt-4" href="">Cохранить</a>
+	</div>
+	<div class="addbit mt-5">
+		<div class="row">
+			<div class="col-12 col-md-6 text-center" v-for="(i, index) in 6">
+				<h3 class="text-center">{{i}} преимущество</h3>
+				<input v-model="preimushName[index]" type="text" style="width: 60%" />
+				<textarea v-model="preimushBody[index]" rows="10" cols="30" type="text" class="mt-3" style="width: 60%"></textarea>
+				<div class=" text-center">
+
+					<a v-on:click.prevent="changePreim(i, preimushName[index], preimushBody[index] )" href="#">Изменить</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+@section Scripts{
+	<script type="text/javascript">
+		var main_vue = new Vue({
+			el: '#main_vue',
+			data: {
+				adminViewModel: Object,
+				inputPayment: '',
+				price: 0,
+				preimushName: [],
+				preimushBody: [],
+				pravila: [],
+				politica: [],
+				proxyUrl: ''
+			},
+			mounted() {
+				$.ajax({
+					type: 'GET',
+					url: '/Admin/GetAdminViewModel',
+					async: true,
+					success: (res) => {
+						main_vue.adminViewModel = res;
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Admin/GetUrl',
+					async: true,
+					success: (res) => {
+						main_vue.proxyUrl = res;
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetPrice',
+					async: true,
+					success: (res) => {
+						main_vue.price = res;
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetPravila',
+					async: true,
+					success: (res) => {
+						res.forEach(function (el) {
+							main_vue.pravila.push(el.body);
+						});
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetPolitica',
+					async: true,
+					success: (res) => {
+						console.log(res);
+						res.forEach(function (el) {
+							main_vue.politica.push(el.body);
+						});
+					}
+				});
+				$.ajax({
+					type: 'GET',
+					url: '/Home/GetPreimush',
+					async: true,
+					success: (res) => {
+						console.log(res);
+						res.forEach(function (el) {
+							main_vue.preimushName.push(el.name);
+							main_vue.preimushBody.push(el.body);
+						});
+					}
+				});
+			},
+			methods: {
+				changePreim: function (index, name, body) {
+					$.ajax({
+						type: 'PUT',
+						url: '/Admin/UpdatePreimush',
+						data: {
+							index: index,
+							name: name,
+							body: body
+						},
+						async: true
+					});
+				},
+				setProxy: function () {
+					$.ajax({
+						type: 'PUT',
+						url: '/Admin/SetUrl',
+						data: {
+							url: main_vue.proxyUrl,
+						},
+						async: true
+					});
+				},
+				setPravila: function () {
+					console.log(main_vue.pravila);
+					$.ajax({
+						type: 'PUT',
+						url: '/Admin/SetPravila',
+						data: {
+							pravila: main_vue.pravila
+						},
+						async: true,
+						success: function () {
+
+						}
+					});
+				},
+				setPolitica: function () {
+					$.ajax({
+						type: 'PUT',
+						url: '/Admin/SetPolitica',
+						data: {
+							politica: main_vue.politica
+						},
+						async: true,
+						success: function () {
+
+						}
+					});
+				},
+
+				addBitcoinPayment: function () {
+					if (main_vue.inputPayment.length != 0) {
+						$.ajax({
+							type: 'PUT',
+							url: '/Admin/AddBitcoinPayment',
+							data: {
+								payment: main_vue.inputPayment
+							},
+							success: function (res) {
+								console.log(res);
+								if (res == true) {
+									main_vue.adminViewModel.avaibleBitcountPayment++;
+								}
+								else {
+									alert('Данный кошелек уже есть в базе.');
+								}
+							}
+						});
+					}
+				},
+				changePrice: function () {
+					$.ajax({
+						type: 'PUT',
+						url: '/Admin/SetPrice',
+						data: {
+							price: main_vue.price
+						},
+						success: function (res) {
+
+						}
+					});
+				}
+			}
+		})
+	</script>
+}
