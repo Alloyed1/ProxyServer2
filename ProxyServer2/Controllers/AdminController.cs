@@ -35,6 +35,7 @@ namespace ProxyServer2.Controllers
 			RecurringJob.AddOrUpdate(
 				() => _proxyRepository.UpdateCount(),
 				Cron.Daily);
+            _proxyRepository.SetIp("127.127.127.127", "nu;;");
 			return View();
 		}
 		[HttpGet]

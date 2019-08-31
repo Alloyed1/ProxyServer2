@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
+using OpenQA.Selenium.PhantomJS;
 using ProxyServer2.Models;
 using System;
 using System.Collections.Generic;
@@ -15,16 +17,58 @@ namespace ProxyServer2.Repository
 		Task UpdateProxyList();
 		Task SendNotify();
 		Task UpdateCount();
+        Task<int> SetIp(string ip, string userEmail);
 	}
-	public class ProxyRepository : IProxyRepository
-	{
-		private string connectionString;
-		IEmailRepositorycs _emailRepositorycs;
-		public ProxyRepository(IConfiguration configuration, IEmailRepositorycs emailRepositorycs)
-		{
-			connectionString = configuration.GetConnectionString("DefaultConnection");
-			_emailRepositorycs = emailRepositorycs;
-		}
+    public class ProxyRepository : IProxyRepository
+    {
+        private string connectionString;
+        IEmailRepositorycs _emailRepositorycs;
+        public ProxyRepository(IConfiguration configuration, IEmailRepositorycs emailRepositorycs)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+            _emailRepositorycs = emailRepositorycs;
+        }
+        public async Task<int> SetIp(string ip, string userEmail)
+        {
+            IWebDriver browser;
+
+            browser = new PhantomJSDriver();
+            browser.Manage().Window.Maximize();
+            browser.Navigate().GoToUrl("https://www.sharedproxies.com/user.php?s=api");
+
+            IWebElement name = browser.FindElement(By.Id("Username"));
+            IWebElement password = browser.FindElement(By.Name("Password"));
+
+            name.SendKeys("lebedev1");
+            password.SendKeys("PfTcjijzIQHZHmzVRx1z" + OpenQA.Selenium.Keys.Enter);
+
+            IWebElement home = browser.FindElements(By.ClassName("buttonscontainer1")).First().FindElements(By.ClassName("buttons4")).First().FindElement(By.TagName("a"));
+            home.Click();
+
+            browser.FindElements(By.TagName("a")).First(f => f.Text == "Change Authorized IPs").Click();
+
+
+            List<IWebElement> ips = browser.FindElement(By.Id("addipform")).FindElements(By.TagName("input")).ToList();
+            bool isNullContains = false;
+            int idValue = 0;
+            for (int i = 0; (ips.Count() - 1) > i; i++)
+            {
+                if(ips[i].GetAttribute("value") == "")
+                {
+                    isNullContains = true;
+                    idValue = i;
+                    break;
+                }
+            }
+            if (!isNullContains)
+            {
+                return 1;
+            }
+            ips[idValue].SendKeys(ip);
+            IWebElement submitButton = browser.FindElements(By.TagName("input")).First(s => s.GetAttribute("value") == "Save Authorized IPs");
+            submitButton.Click();
+            return 2;
+        }
 		public async Task UpdateCount()
 		{
 			using (var db = new SqlConnection(connectionString))
