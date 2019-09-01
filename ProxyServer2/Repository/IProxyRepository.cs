@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.PhantomJS;
 using ProxyServer2.Models;
 using System;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ProxyServer2.Repository
@@ -28,11 +31,13 @@ namespace ProxyServer2.Repository
             connectionString = configuration.GetConnectionString("DefaultConnection");
             _emailRepositorycs = emailRepositorycs;
         }
-        public async Task<int> SetIp(string ip, string userEmail)
+
+		[Obsolete]
+		public async Task<int> SetIp(string ip, string userEmail)
         {
             IWebDriver browser;
-
-            browser = new PhantomJSDriver();
+			var driverdir = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			browser = new PhantomJSDriver(driverdir);
             browser.Manage().Window.Maximize();
             browser.Navigate().GoToUrl("https://www.sharedproxies.com/user.php?s=api");
 
@@ -40,7 +45,7 @@ namespace ProxyServer2.Repository
             IWebElement password = browser.FindElement(By.Name("Password"));
 
             name.SendKeys("lebedev1");
-            password.SendKeys("PfTcjijzIQHZHmzVRx1z" + OpenQA.Selenium.Keys.Enter);
+            password.SendKeys("PfTcjijzIQHZHmzVRx1z" + Keys.Enter);
 
             IWebElement home = browser.FindElements(By.ClassName("buttonscontainer1")).First().FindElements(By.ClassName("buttons4")).First().FindElement(By.TagName("a"));
             home.Click();
